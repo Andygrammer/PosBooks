@@ -13,7 +13,6 @@ public class Parametros : IParametros
     private readonly IConfiguration _configuration;
     private readonly IBus _bus;
     const string MASSTRANSIT = "MassTransit";
-    const string NOMEFILA = "NomeFila";
     const string QUEUE = "queue";
     
     /// <summary>
@@ -30,12 +29,13 @@ public class Parametros : IParametros
     }
 
     /// <summary>
-    /// Searches for the name of the queue.
+    /// Searches for a queue by its name.
     /// </summary>
-    /// <returns>The name of the queue.</returns>
-    public string BuscarNomeFila()
+    /// <param name="nomeFila">The name of the queue to search for.</param>
+    /// <returns>The name of the found queue.</returns>
+    public string BuscarNomeFila(string nomeFila)
     {
-        return _configuration.GetSection(MASSTRANSIT)[NOMEFILA] ?? string.Empty;
+        return _configuration.GetSection(MASSTRANSIT)[nomeFila] ?? string.Empty;
     }
     
     /// <summary>

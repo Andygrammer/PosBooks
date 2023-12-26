@@ -14,6 +14,7 @@ public class ParametrosTest
     const string MASSTRANSIT = "MassTransit";
     const string NOMEFILA = "NomeFila";
     const string QUEUE = "queue";
+    const string NOMEFILAALUGARLIVRO = "NomeFilaAlugarLivro";
 
     public ParametrosTest()
     {
@@ -44,7 +45,7 @@ public class ParametrosTest
         _configuration.GetSection(MASSTRANSIT)[NOMEFILA].Returns(NOMEFILA);
 
         // Act
-        var result = _parametros.BuscarNomeFila();
+        var result = _parametros.BuscarNomeFila(NOMEFILAALUGARLIVRO);
 
         // Assert
         Assert.Equal(NOMEFILA, result);
@@ -57,7 +58,7 @@ public class ParametrosTest
         _configuration.GetSection(MASSTRANSIT)[NOMEFILA].Returns((string)null);
 
         // Act
-        var result = _parametros.BuscarNomeFila();
+        var result = _parametros.BuscarNomeFila(NOMEFILAALUGARLIVRO);
 
         // Assert
         Assert.Equal(string.Empty, result);

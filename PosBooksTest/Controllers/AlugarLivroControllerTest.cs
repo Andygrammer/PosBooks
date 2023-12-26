@@ -15,6 +15,7 @@ public class AlugarLivroControllerTest
     private readonly AlugarLivroController _controller;
     private readonly IParametros _parametros = Substitute.For<IParametros>();
     private readonly IEnviarRequisicaoBusiness _enviarRequisicaoBusiness = Substitute.For<IEnviarRequisicaoBusiness>();
+    const string NOMEFILAALUGARLIVRO = "NomeFilaAlugarLivro";
 
     public AlugarLivroControllerTest()
     {
@@ -27,7 +28,7 @@ public class AlugarLivroControllerTest
         // Arrange
         var solicitacaoDto = new SolicitacaoDto("Nome", "Email", 1);
     
-        _parametros.BuscarNomeFila().Returns("TestFila");
+        _parametros.BuscarNomeFila(NOMEFILAALUGARLIVRO).Returns("TestFila");
         var endpoint = Substitute.For<ISendEndpoint>();
         _parametros.MontarEndpoint("TestFila").Returns(endpoint);
 
@@ -60,7 +61,7 @@ public class AlugarLivroControllerTest
     {
         // Arrange
         var solicitacaoDto = new SolicitacaoDto("Nome", "Email", 1);
-        _parametros.BuscarNomeFila().Returns("InvalidFila"); 
+        _parametros.BuscarNomeFila(NOMEFILAALUGARLIVRO).Returns("InvalidFila"); 
         _parametros.MontarEndpoint("InvalidFila").Throws(new RabbitMqAddressException("Invalid address"));
 
         // Act
@@ -79,7 +80,7 @@ public class AlugarLivroControllerTest
     {
         // Arrange
         var solicitacaoDto = new SolicitacaoDto("Nome", "Email", 1);
-        _parametros.BuscarNomeFila().Returns("TestFila");
+        _parametros.BuscarNomeFila(NOMEFILAALUGARLIVRO).Returns("TestFila");
         _parametros.MontarEndpoint("TestFila").Returns(Substitute.For<ISendEndpoint>());
         
         _enviarRequisicaoBusiness

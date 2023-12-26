@@ -9,10 +9,11 @@ namespace PosBooksCore.Interfaces.Parameters;
 public interface IParametros
 {
     /// <summary>
-    /// Searches for the name of the queue.
+    /// Searches for a queue by its name.
     /// </summary>
-    /// <returns>The name of the queue.</returns>
-    string BuscarNomeFila();
+    /// <param name="nomeFila">The name of the queue to search for.</param>
+    /// <returns>The name of the found queue.</returns>
+    string BuscarNomeFila(string nomeFila);
 
     /// <summary>
     /// MontarEndpoint method is used to create an ISendEndpoint for the specified queue name.

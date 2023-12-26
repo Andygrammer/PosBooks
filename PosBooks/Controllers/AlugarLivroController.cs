@@ -18,6 +18,7 @@ public class AlugarLivroController : ControllerBase
 {
     private readonly IParametros _parametros;
     private readonly IEnviarRequisicaoBusiness _enviarRequisicaoBusiness;
+    const string NOMEFILAALUGARLIVRO = "NomeFilaAlugarLivro";
 
     /// <summary>
     /// Constructor
@@ -71,7 +72,7 @@ public class AlugarLivroController : ControllerBase
     /// <exception cref="Exception">Thrown when there is an unexpected error.</exception>
     private async Task SendSolicitacao(SolicitacaoDto solicitacaoDto)
     {
-        var nomeFila = _parametros.BuscarNomeFila();
+        var nomeFila = _parametros.BuscarNomeFila(NOMEFILAALUGARLIVRO);
         var endpoint = await _parametros.MontarEndpoint(nomeFila);
         await _enviarRequisicaoBusiness.EnviarRequisicao(solicitacaoDto, endpoint);
     }
