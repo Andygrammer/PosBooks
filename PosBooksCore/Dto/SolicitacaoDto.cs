@@ -45,4 +45,12 @@ public class SolicitacaoDto
         IdLivro = idLivro;
         DataSolicitacao = DateTime.Now;
     }
+
+    public override string ToString()
+    {
+        return  $"Nome: {Nome}, " +
+                $"E-mail: {Email}, " +
+                $"ID do Livro: {IdLivro}, " +
+                $"Data de solicitação: {DataSolicitacao:dd/MM/yyyy}";
+    }
 }
