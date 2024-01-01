@@ -5,6 +5,10 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosBooks", "PosBooks\PosBooks.csproj", "{4B94DD38-1600-45B2-A769-2F79594F78A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosBooksCore", "PosBooksCore\PosBooksCore.csproj", "{6D5387B6-E9FF-4A76-89F9-5BEEA9EF0924}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosBooksTest", "PosBooksTest\PosBooksTest.csproj", "{71CC8B3B-0127-4C3A-80EC-B4D0F54DF4F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{4B94DD38-1600-45B2-A769-2F79594F78A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B94DD38-1600-45B2-A769-2F79594F78A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B94DD38-1600-45B2-A769-2F79594F78A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D5387B6-E9FF-4A76-89F9-5BEEA9EF0924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D5387B6-E9FF-4A76-89F9-5BEEA9EF0924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D5387B6-E9FF-4A76-89F9-5BEEA9EF0924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D5387B6-E9FF-4A76-89F9-5BEEA9EF0924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71CC8B3B-0127-4C3A-80EC-B4D0F54DF4F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71CC8B3B-0127-4C3A-80EC-B4D0F54DF4F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71CC8B3B-0127-4C3A-80EC-B4D0F54DF4F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71CC8B3B-0127-4C3A-80EC-B4D0F54DF4F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
