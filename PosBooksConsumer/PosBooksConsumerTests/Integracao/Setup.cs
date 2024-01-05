@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using PosBooksConsumer.Models;
 
 namespace PosBooksConsumerTests.Integracao

@@ -31,12 +31,12 @@ namespace PosBooksConsumer.Models
 
             modelBuilder.Entity<Book>().HasKey(b => b.Id);
             modelBuilder.Entity<Client>().HasKey(b => b.Email);
-            modelBuilder.Entity<Request>().HasNoKey();
+            modelBuilder.Entity<WaitList>().HasNoKey();
         }
 
         public DbSet<Book> Books { get; set; }
 
-        public DbSet<Request> Requests { get; set; }
+        public DbSet<WaitList> WaitList { get; set; }
         
         public DbSet<Client> Clients { get; set; }
 

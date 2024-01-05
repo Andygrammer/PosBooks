@@ -1,6 +1,6 @@
 ﻿namespace PosBooksConsumer.Models
 {
-    public class Request
+    public class WaitList
     {
         public Client Requester { get; set; }
 

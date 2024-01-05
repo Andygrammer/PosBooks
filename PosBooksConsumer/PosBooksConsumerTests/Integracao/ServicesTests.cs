@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
+﻿using Microsoft.EntityFrameworkCore;
 using PosBooksConsumer.Models;
 using PosBooksConsumer.Services;
 using PosBooksConsumerTests.Shareable;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace PosBooksConsumerTests.Integracao
 {
