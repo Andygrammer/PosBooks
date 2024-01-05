@@ -21,26 +21,19 @@ namespace PosBooksConsumerTests.Integracao
         [Fact]
         public async Task BookAvaliability_ShouldReturnObjectWhenItsAvaliable()
         {
-            var bookRequest = new BookDtoBuilder().Generate();
-            var bookExpected = new Book()
-            {
-                Author = bookRequest.Author,
-                Publisher = bookRequest.Publisher,
-                Title = bookRequest.Title,
-                Year = bookRequest.Year
-            };
+            var bookRequest = new BookBuilder().Generate();
 
-            await _context.AddAsync(bookExpected);
+            await _context.AddAsync(bookRequest);
             await _context.SaveChangesAsync();
 
             var avaliabilityResult = await _bookService.VerifyBookAvaliability(bookRequest);
-            Assert.Equal(bookExpected, avaliabilityResult);
+            Assert.Equal(bookRequest, avaliabilityResult);
         }
 
         [Fact]
         public async Task BookAvaliability_ShouldNotReturnObjectWhenItsUnavaliable()
         {
-            var bookRequest = new BookDtoBuilder().Generate();
+            var bookRequest = new BookBuilder().Generate();
 
             var avaliabilityResult = await _bookService.VerifyBookAvaliability(bookRequest);
             Assert.Null(avaliabilityResult);
