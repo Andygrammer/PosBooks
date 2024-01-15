@@ -11,11 +11,9 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         services.AddHostedService<Worker>();
 
-        services.AddDbContext<PBCContext>();
-
-    //    services.AddDbContext<PBCContext>(opt => opt
-    //.UseSqlite("DataSource=:memory:")
-    //.EnableSensitiveDataLogging());
+        services.AddDbContext<PBCContext>(opt => opt
+                                          .UseSqlite("DataSource=memory.db;Cache=Shared")
+                                          .EnableSensitiveDataLogging());
 
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IEmailService, EmailService>();
