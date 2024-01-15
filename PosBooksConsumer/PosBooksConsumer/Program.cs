@@ -10,7 +10,13 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
         services.AddHostedService<Worker>();
+
         services.AddDbContext<PBCContext>();
+
+    //    services.AddDbContext<PBCContext>(opt => opt
+    //.UseSqlite("DataSource=:memory:")
+    //.EnableSensitiveDataLogging());
+
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<PBCContext>();
@@ -50,4 +56,10 @@ IHost host = Host.CreateDefaultBuilder(args)
         });
     })
     .Build();
+
+var scoped = host.Services.CreateScope();
+
+var dbContext = scoped.ServiceProvider.GetRequiredService<PBCContext>();
+dbContext.Database.Migrate();
+
 host.Run();
