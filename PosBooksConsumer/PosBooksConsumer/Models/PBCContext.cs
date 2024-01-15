@@ -33,6 +33,8 @@ namespace PosBooksConsumer.Models
             modelBuilder.Entity<Client>().HasKey(b => b.Email);
             modelBuilder.Entity<WaitList>().HasNoKey();
         }
+        
+        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite("DataSource=memory.db;Cache=Shared");
 
         public DbSet<Book> Books { get; set; }
 
