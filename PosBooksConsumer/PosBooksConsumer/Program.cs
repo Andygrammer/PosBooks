@@ -4,6 +4,7 @@ using PosBooksConsumer;
 using PosBooksConsumer.Events;
 using PosBooksConsumer.Models;
 using PosBooksConsumer.Services;
+using static System.Formats.Asn1.AsnWriter;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
@@ -16,9 +17,11 @@ IHost host = Host.CreateDefaultBuilder(args)
 
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<PBCContext>();
 
         var configuration = hostContext.Configuration;
         var fila = configuration.GetSection("MassTransit")["NomeFila"] ?? string.Empty;
+        var PosBooksProdutorDevolverLivro = configuration.GetSection("MassTransit")["PosBooksProdutorDevolverLivro"] ?? string.Empty;
         var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;
         var usuario = configuration.GetSection("MassTransit")["Usuario"] ?? string.Empty;
         var senha = configuration.GetSection("MassTransit")["Senha"] ?? string.Empty;
@@ -38,16 +41,28 @@ IHost host = Host.CreateDefaultBuilder(args)
                     e.Consumer<RentBook>(context);
                 });
 
+                cfg.ReceiveEndpoint(PosBooksProdutorDevolverLivro, e =>
+                {
+                    e.Consumer<GiveBackBook>(context);
+                });
+
                 cfg.ConfigureEndpoints(context);
             });
 
             x.AddConsumer<RentBook>();
+            x.AddConsumer<GiveBackBook>();
         });
     })
     .Build();
 
-var dbContext = host.Services.GetRequiredService<PBCContext>();
-dbContext.Database.Migrate();
+using (var scope = host.Services.CreateScope())
+{
+    var services = scope.ServiceProvider.GetRequiredService<PBCContext>;
+    services.Invoke().Database.Migrate();
+}
+
+//var services = host.Services.GetService<PBCContext>();
+//services.Database.Migrate();
 
 host.Run();
 

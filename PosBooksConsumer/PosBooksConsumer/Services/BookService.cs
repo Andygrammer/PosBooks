@@ -10,6 +10,7 @@ namespace PosBooksConsumer.Services
         public Task Rent(Book book, Client renter);
 
         public Task SubscribeToWaitList(Book book, Client renter);
+        public Task GiveBackBook(int id);
     }
     
     public class BookService : IBookService
@@ -38,6 +39,14 @@ namespace PosBooksConsumer.Services
         public async Task Rent(Book book, Client renter)
         {
             book.Renter = renter;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task GiveBackBook(int id)
+        {
+            var selectedBook = await _context.Books.Where(b => b.Id == id).FirstOrDefaultAsync();
+
+            selectedBook.Renter = null;
             await _context.SaveChangesAsync();
         }
 
