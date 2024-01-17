@@ -1,10 +1,10 @@
 ﻿using MassTransit;
-using PosBooksConsumer.Models;
 using PosBooksConsumer.Services;
+using PosBooksCore.Models;
 
 namespace PosBooksConsumer.Events
 {
-    public class RentBook : IConsumer<BookRequestDTO>
+    public class RentBook : IConsumer<BookRequest>
     {
         private readonly IBookService _bookService;
         private readonly IEmailService _emailService;
@@ -15,16 +15,16 @@ namespace PosBooksConsumer.Events
             _emailService = emailService;
         }
 
-        public async Task Consume(ConsumeContext<BookRequestDTO> context)
+        public async Task Consume(ConsumeContext<BookRequest> context)
         {
-            var avaliableBook = await _bookService.VerifyBookAvaliability(context.Message.Book);
+            var avaliableBook = await _bookService.VerifyBookAvaliability(context.Message.IdBook);
             if (avaliableBook == null)
             {
-                await _bookService.SubscribeToWaitList(context.Message.Book, context.Message.Requester);
+                await _bookService.SubscribeToWaitList(context.Message.IdBook, context.Message.Requester);
                 await _emailService.SendEmail(context.Message.Requester.Email, "");
             }
 
-            await _bookService.Rent(context.Message.Book, context.Message.Requester);
+            await _bookService.Rent(context.Message.IdBook, context.Message.Requester);
             await _emailService.SendEmail(context.Message.Requester.Email, "");
         }
     }

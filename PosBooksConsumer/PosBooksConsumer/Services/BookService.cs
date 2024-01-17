@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PosBooksConsumer.Models;
+using PosBooksCore.Models;
 
 namespace PosBooksConsumer.Services
 {
     public interface IBookService
     {
-        public Task<Book?> VerifyBookAvaliability(Book book);
-
-        public Task Rent(Book book, Client renter);
-
-        public Task SubscribeToWaitList(Book book, Client renter);
+        public Task<ConsumerBook?> VerifyBookAvaliability(int idBook);
+        public Task Rent(int idBook, Client renter);
+        public Task SubscribeToWaitList(int idBook, Client renter);
         public Task GiveBackBook(int id);
     }
     
@@ -22,23 +21,20 @@ namespace PosBooksConsumer.Services
             _context = context;
         }
 
-        public async Task<Book?> VerifyBookAvaliability(Book book)
+        public async Task<ConsumerBook?> VerifyBookAvaliability(int idBook)
         {
-            var selectedBook = await _context.Books.Where(b =>
-                b.Publisher == book.Publisher
-                && b.Title == book.Title
-                && b.Year == book.Year
-                && b.Author == book.Author
-
-            ).FirstOrDefaultAsync();
+            var selectedBook = await _context.Books
+                .Where(b =>b.Id == idBook)
+                .FirstOrDefaultAsync();
 
             if (selectedBook?.Renter != null) return null;
             return selectedBook;
         }
 
-        public async Task Rent(Book book, Client renter)
+        public async Task Rent(int idBook, Client renter)
         {
-            book.Renter = renter;
+            var wantedBook = await _context.Books.Where(b => b.Id == idBook).FirstAsync();
+            wantedBook.Renter = renter;
             await _context.SaveChangesAsync();
         }
 
@@ -49,10 +45,12 @@ namespace PosBooksConsumer.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task SubscribeToWaitList(Book book, Client renter)
+        public async Task SubscribeToWaitList(int idBook, Client renter)
         {
+            var wantedBook = await _context.Books.Where(b => b.Id == idBook).FirstAsync();
+
             var waitListNewRequest = new WaitList() 
-            { BookRequest= book, RequestDate =DateTime.Now, Requester = renter };
+            { BookRequest = wantedBook, RequestDate = DateTime.Now, Requester = renter };
 
             await _context.WaitList.AddAsync(waitListNewRequest);
             await _context.SaveChangesAsync();

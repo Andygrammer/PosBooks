@@ -1,4 +1,4 @@
-﻿namespace PosBooksConsumer.Models
+﻿namespace PosBooksCore.Models
 {
     public class WaitList
     {
