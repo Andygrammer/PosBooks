@@ -23,7 +23,7 @@ builder.Services.AddSingleton<IParametros, Parametros>();
 builder.Services.AddSingleton<IEnviarRequisicaoBusiness, EnviarRequisicaoBusiness>();
 
 builder.Services.AddDbContext<PosBookContext>(opt => opt
-                                  .UseSqlite("DataSource=memory.db;Cache=Shared")
+                                  .UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"))
                                   .EnableSensitiveDataLogging());
 
 builder.Services.AddScoped<PosBookContext>();

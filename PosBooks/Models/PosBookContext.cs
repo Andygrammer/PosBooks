@@ -15,6 +15,7 @@ public class PosBookContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Book>().HasData(DefaultData.Get());
+        modelBuilder.Entity<Book>().Ignore(b => b.Renter);
         modelBuilder.Entity<Book>().HasKey(b => b.Id);
     }
 

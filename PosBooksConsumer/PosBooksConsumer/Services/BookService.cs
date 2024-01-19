@@ -41,9 +41,6 @@ namespace PosBooksConsumer.Services
         {
             var wantedBook = await _context.Books.Where(b => b.Id == idBook).FirstAsync();
             wantedBook.Renter = renter;
-
-            if (await VerifyIfClientExists(renter.Email!)) _context.Entry(wantedBook.Renter).State = EntityState.Unchanged;
-
             await _context.SaveChangesAsync();
         }
 
