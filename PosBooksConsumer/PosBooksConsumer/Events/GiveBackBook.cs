@@ -2,6 +2,7 @@
 using PosBooksConsumer.Models;
 using PosBooksConsumer.Services;
 using PosBooksCore.Dto;
+using PosBooksCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PosBooksConsumer.Events
 {
-    public  class GiveBackBook : IConsumer<SolicitacaoDto>
+    public  class GiveBackBook : IConsumer<BookRequest>
     {
         private readonly IBookService _bookService;
         private readonly IEmailService _emailService;
@@ -21,9 +22,9 @@ namespace PosBooksConsumer.Events
             _emailService = emailService;
         }
 
-        public async Task Consume(ConsumeContext<SolicitacaoDto> context)
+        public async Task Consume(ConsumeContext<BookRequest> context)
         {
-            var bookId = context.Message.IdLivro;
+            var bookId = context.Message.IdBook;
             await _bookService.GiveBackBook(bookId);
         }
     }
