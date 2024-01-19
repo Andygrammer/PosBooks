@@ -12,19 +12,16 @@ namespace PosBooksConsumerTests.Integracao
 
         public Setup()
         {
-            _context = new PBCContext(GetInMemoryConnectionOptions());
+            _context = new PBCContext(GetContextOptions());
             _context.Database.EnsureCreated();
-
-            if (_connection is not null) _connection.Open();
         }
 
-        private DbContextOptions<PBCContext> GetInMemoryConnectionOptions()
+        private DbContextOptions<PBCContext> GetContextOptions()
         {
-            _connection = new SqliteConnection("DataSource=:memory:");
-            _connection.Open();
+            var connection = "Server=(localdb)\\MSSQLLocalDB;Database=PosBooksConsumerTests;Integrated Security=true;";
 
             return new DbContextOptionsBuilder<PBCContext>()
-                .UseSqlite(_connection)
+                .UseSqlServer(connection)
                 .EnableSensitiveDataLogging()
                 .Options;
         }

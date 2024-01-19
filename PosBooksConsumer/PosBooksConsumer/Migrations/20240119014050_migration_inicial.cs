@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PosBooksConsumer.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDatabase : Migration
+    public partial class migration_inicial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,8 @@ namespace PosBooksConsumer.Migrations
                 name: "Clients",
                 columns: table => new
                 {
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Email = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,13 +29,13 @@ namespace PosBooksConsumer.Migrations
                 name: "Books",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Title = table.Column<string>(type: "TEXT", nullable: false),
-                    Author = table.Column<string>(type: "TEXT", nullable: false),
-                    Publisher = table.Column<string>(type: "TEXT", nullable: false),
-                    Year = table.Column<int>(type: "INTEGER", nullable: false),
-                    RenterEmail = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Publisher = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    RenterEmail = table.Column<string>(type: "nvarchar(150)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,9 +51,9 @@ namespace PosBooksConsumer.Migrations
                 name: "WaitList",
                 columns: table => new
                 {
-                    RequesterEmail = table.Column<string>(type: "TEXT", nullable: false),
-                    BookRequestId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RequestDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    RequesterEmail = table.Column<string>(type: "nvarchar(150)", nullable: false),
+                    BookRequestId = table.Column<int>(type: "int", nullable: false),
+                    RequestDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

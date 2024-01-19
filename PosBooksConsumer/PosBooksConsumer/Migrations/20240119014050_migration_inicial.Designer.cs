@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PosBooksConsumer.Models;
@@ -11,38 +12,44 @@ using PosBooksConsumer.Models;
 namespace PosBooksConsumer.Migrations
 {
     [DbContext(typeof(PBCContext))]
-    [Migration("20240115200946_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20240119014050_migration_inicial")]
+    partial class migration_inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "7.0.14")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            modelBuilder.Entity("PosBooksConsumer.Models.Book", b =>
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("PosBooksCore.Models.Book", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Author")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Publisher")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RenterEmail")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Year")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -117,31 +124,32 @@ namespace PosBooksConsumer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("PosBooksConsumer.Models.Client", b =>
+            modelBuilder.Entity("PosBooksCore.Models.Client", b =>
                 {
                     b.Property<string>("Email")
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Email");
 
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("PosBooksConsumer.Models.WaitList", b =>
+            modelBuilder.Entity("PosBooksCore.Models.WaitList", b =>
                 {
                     b.Property<int>("BookRequestId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RequestDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("RequesterEmail")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasIndex("BookRequestId");
 
@@ -150,24 +158,24 @@ namespace PosBooksConsumer.Migrations
                     b.ToTable("WaitList");
                 });
 
-            modelBuilder.Entity("PosBooksConsumer.Models.Book", b =>
+            modelBuilder.Entity("PosBooksCore.Models.Book", b =>
                 {
-                    b.HasOne("PosBooksConsumer.Models.Client", "Renter")
+                    b.HasOne("PosBooksCore.Models.Client", "Renter")
                         .WithMany()
                         .HasForeignKey("RenterEmail");
 
                     b.Navigation("Renter");
                 });
 
-            modelBuilder.Entity("PosBooksConsumer.Models.WaitList", b =>
+            modelBuilder.Entity("PosBooksCore.Models.WaitList", b =>
                 {
-                    b.HasOne("PosBooksConsumer.Models.Book", "BookRequest")
+                    b.HasOne("PosBooksCore.Models.Book", "BookRequest")
                         .WithMany()
                         .HasForeignKey("BookRequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PosBooksConsumer.Models.Client", "Requester")
+                    b.HasOne("PosBooksCore.Models.Client", "Requester")
                         .WithMany()
                         .HasForeignKey("RequesterEmail")
                         .OnDelete(DeleteBehavior.Cascade)

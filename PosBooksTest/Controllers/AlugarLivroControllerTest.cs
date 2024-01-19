@@ -7,6 +7,7 @@ using PosBooksCore.Interfaces.Parameters;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using PosBooksCore.ViewModels;
+using PosBooksCore.Models;
 
 namespace PosBooksTest.Controllers;
 
@@ -34,11 +35,12 @@ public class AlugarLivroControllerTest
 
         // Act
         var result = _controller.AlugarLivro(solicitacaoDto).Result;
+        var requisicaoEsperada = BookRequest.Map(solicitacaoDto);
 
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
         Assert.Equal(200, okResult.StatusCode);
-        _enviarRequisicaoBusiness.Received().EnviarRequisicao(solicitacaoDto, endpoint);
+        _enviarRequisicaoBusiness.Received().EnviarRequisicao(requisicaoEsperada, endpoint);
     }
     
     [Fact]
@@ -82,9 +84,10 @@ public class AlugarLivroControllerTest
         var solicitacaoDto = new SolicitacaoDto("Nome", "Email", 1);
         _parametros.BuscarNomeFila(NOMEFILAALUGARLIVRO).Returns("TestFila");
         _parametros.MontarEndpoint("TestFila").Returns(Substitute.For<ISendEndpoint>());
-        
+        var requisicaoEsperada = BookRequest.Map(solicitacaoDto);
+
         _enviarRequisicaoBusiness
-            .EnviarRequisicao(solicitacaoDto, Arg.Any<ISendEndpoint>())
+            .EnviarRequisicao(requisicaoEsperada, Arg.Any<ISendEndpoint>())
             .Throws(new Exception("Erro genérico"));
         
         // Act
