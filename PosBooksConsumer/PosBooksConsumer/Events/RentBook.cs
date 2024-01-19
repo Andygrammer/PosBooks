@@ -23,9 +23,11 @@ namespace PosBooksConsumer.Events
                 await _bookService.SubscribeToWaitList(context.Message.IdBook, context.Message.Requester);
                 await _emailService.SendEmail(context.Message.Requester.Email, "");
             }
-
-            await _bookService.Rent(context.Message.IdBook, context.Message.Requester);
-            await _emailService.SendEmail(context.Message.Requester.Email, "");
+            else
+            {
+                await _bookService.Rent(context.Message.IdBook, context.Message.Requester);
+                await _emailService.SendEmail(context.Message.Requester.Email, "");
+            }
         }
     }
 }

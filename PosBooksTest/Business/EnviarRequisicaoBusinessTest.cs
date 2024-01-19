@@ -2,6 +2,7 @@
 using NSubstitute;
 using PosBooksCore.Business;
 using PosBooksCore.Dto;
+using PosBooksCore.Models;
 
 namespace PosBooksTest.Business;
 
@@ -23,9 +24,10 @@ public class EnviarRequisicaoBusinessTest
     [Fact]
     public async Task EnviarRequisicao_SendEndpointCalled_WhenMethodCalled()
     {
+        var requisicaoEsperada = BookRequest.Map(_solicitacaoDto);
         // Act
         // Call the method under test
-        await _enviarRequisicaoBusiness.EnviarRequisicao(_solicitacaoDto, _sendEndpoint);
+        await _enviarRequisicaoBusiness.EnviarRequisicao(requisicaoEsperada, _sendEndpoint);
 
         // Assert
         // Check if the Send method of the endpoint was called with the correct request

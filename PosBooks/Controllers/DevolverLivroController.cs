@@ -4,6 +4,7 @@ using PosBooksCore.Dto;
 using PosBooksCore.Extensions;
 using PosBooksCore.Interfaces.Business;
 using PosBooksCore.Interfaces.Parameters;
+using PosBooksCore.Models;
 using PosBooksCore.ViewModels;
 
 namespace PosBooks.Controllers;
@@ -68,8 +69,9 @@ public class DevolverLivroController : ControllerBase
     /// <exception cref="Exception">Thrown when there is an unexpected error.</exception>
     private async Task SendSolicitacao(SolicitacaoDto solicitacaoDto)
     {
+        var objSolicitacao = BookRequest.Map(solicitacaoDto);
         var nomeFila = _parametros.BuscarNomeFila(NOMEFILADEVOLVERLIVRO);
         var endpoint = await _parametros.MontarEndpoint(nomeFila);
-        await _enviarRequisicaoBusiness.EnviarRequisicao(solicitacaoDto, endpoint);
+        await _enviarRequisicaoBusiness.EnviarRequisicao(objSolicitacao, endpoint);
     }
 }

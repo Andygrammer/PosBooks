@@ -12,7 +12,7 @@ public class ParametrosTest
     private readonly IBus _bus;
     private readonly IConfiguration _configuration;
     const string MASSTRANSIT = "MassTransit";
-    const string NOMEFILA = "NomeFila";
+    const string NOMEFILA = "NomeFilaAlugarLivro";
     const string QUEUE = "queue";
     const string NOMEFILAALUGARLIVRO = "NomeFilaAlugarLivro";
 

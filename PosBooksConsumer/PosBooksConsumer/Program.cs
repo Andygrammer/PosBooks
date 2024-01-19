@@ -4,22 +4,22 @@ using PosBooksConsumer;
 using PosBooksConsumer.Events;
 using PosBooksConsumer.Models;
 using PosBooksConsumer.Services;
-using static System.Formats.Asn1.AsnWriter;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
+        var configuration = hostContext.Configuration;
         services.AddHostedService<Worker>();
 
         services.AddDbContext<PBCContext>(opt => opt
-                                          .UseSqlite("DataSource=memory.db;Cache=Shared")
+                                          .UseSqlServer(configuration.GetConnectionString("SQLConnection"))
                                           .EnableSensitiveDataLogging());
 
         services.AddScoped<IBookService, BookService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<PBCContext>();
 
-        var configuration = hostContext.Configuration;
+        
         var fila = configuration.GetSection("MassTransit")["NomeFilaAlugarLivro"] ?? string.Empty;
         var PosBooksProdutorDevolverLivro = configuration.GetSection("MassTransit")["PosBooksProdutorDevolverLivro"] ?? string.Empty;
         var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;

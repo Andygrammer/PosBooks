@@ -1,4 +1,7 @@
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using PosBooks.Model;
+using PosBooks.Services;
 using PosBooksCore.Business;
 using PosBooksCore.Interfaces.Business;
 using PosBooksCore.Interfaces.Parameters;
@@ -18,6 +21,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IParametros, Parametros>();
 builder.Services.AddSingleton<IEnviarRequisicaoBusiness, EnviarRequisicaoBusiness>();
+
+builder.Services.AddDbContext<PosBookContext>(opt => opt
+                                  .UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"))
+                                  .EnableSensitiveDataLogging());
+
+builder.Services.AddScoped<PosBookContext>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 ConfigureMassTransit(builder);
 var app = builder.Build();

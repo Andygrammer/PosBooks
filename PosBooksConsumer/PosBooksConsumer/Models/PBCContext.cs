@@ -16,8 +16,11 @@ namespace PosBooksConsumer.Models
 
             modelBuilder.Entity<Book>().HasData(DefaultData.Get());
             modelBuilder.Entity<Book>().HasKey(b => b.Id);
+
             modelBuilder.Entity<Client>().HasKey(b => b.Email);
-            modelBuilder.Entity<WaitList>().HasNoKey();
+            modelBuilder.Entity<Client>().Property(b => b.Email).HasMaxLength(150).ValueGeneratedNever();
+
+            modelBuilder.Entity<WaitList>().HasKey( new string[] { "BookRequestId", "RequesterEmail"});
         }
 
         public DbSet<Book> Books { get; set; }

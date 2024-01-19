@@ -25,11 +25,17 @@ namespace PosBooksConsumer.Services
         {
             var selectedBook = await _context.Books
                 .Where(b =>b.Id == idBook)
+                .Include(c => c.Renter)
                 .FirstOrDefaultAsync();
 
             if (selectedBook?.Renter != null) return null;
             return selectedBook;
         }
+
+        public async Task<bool> VerifyIfClientExists(string email) =>
+            await _context.Clients
+                .Select(b => b.Email == email)
+                .FirstOrDefaultAsync();
 
         public async Task Rent(int idBook, Client renter)
         {
