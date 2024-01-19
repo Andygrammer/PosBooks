@@ -20,7 +20,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddScoped<PBCContext>();
 
         var configuration = hostContext.Configuration;
-        var fila = configuration.GetSection("MassTransit")["NomeFila"] ?? string.Empty;
+        var fila = configuration.GetSection("MassTransit")["NomeFilaAlugarLivro"] ?? string.Empty;
         var PosBooksProdutorDevolverLivro = configuration.GetSection("MassTransit")["PosBooksProdutorDevolverLivro"] ?? string.Empty;
         var servidor = configuration.GetSection("MassTransit")["Servidor"] ?? string.Empty;
         var usuario = configuration.GetSection("MassTransit")["Usuario"] ?? string.Empty;
