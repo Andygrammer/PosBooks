@@ -14,13 +14,13 @@ namespace PosBooksConsumer.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ConsumerBook>().HasData(DefaultData.Get());
-            modelBuilder.Entity<ConsumerBook>().HasKey(b => b.Id);
+            modelBuilder.Entity<Book>().HasData(DefaultData.Get());
+            modelBuilder.Entity<Book>().HasKey(b => b.Id);
             modelBuilder.Entity<Client>().HasKey(b => b.Email);
             modelBuilder.Entity<WaitList>().HasNoKey();
         }
 
-        public DbSet<ConsumerBook> Books { get; set; }
+        public DbSet<Book> Books { get; set; }
 
         public DbSet<WaitList> WaitList { get; set; }
         

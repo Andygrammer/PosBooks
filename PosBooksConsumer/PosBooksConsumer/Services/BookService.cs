@@ -6,7 +6,7 @@ namespace PosBooksConsumer.Services
 {
     public interface IBookService
     {
-        public Task<ConsumerBook?> VerifyBookAvaliability(int idBook);
+        public Task<Book?> VerifyBookAvaliability(int idBook);
         public Task Rent(int idBook, Client renter);
         public Task SubscribeToWaitList(int idBook, Client renter);
         public Task GiveBackBook(int id);
@@ -21,7 +21,7 @@ namespace PosBooksConsumer.Services
             _context = context;
         }
 
-        public async Task<ConsumerBook?> VerifyBookAvaliability(int idBook)
+        public async Task<Book?> VerifyBookAvaliability(int idBook)
         {
             var selectedBook = await _context.Books
                 .Where(b =>b.Id == idBook)

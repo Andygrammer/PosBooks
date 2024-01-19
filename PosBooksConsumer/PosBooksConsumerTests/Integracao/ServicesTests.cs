@@ -26,7 +26,7 @@ namespace PosBooksConsumerTests.Integracao
             await _context.AddAsync(bookRequest);
             await _context.SaveChangesAsync();
 
-            var avaliabilityResult = await _bookService.VerifyBookAvaliability(bookRequest);
+            var avaliabilityResult = await _bookService.VerifyBookAvaliability(bookRequest.Id);
             Assert.Equal(bookRequest, avaliabilityResult);
         }
 
@@ -35,7 +35,7 @@ namespace PosBooksConsumerTests.Integracao
         {
             var bookRequest = new BookBuilder().Generate();
 
-            var avaliabilityResult = await _bookService.VerifyBookAvaliability(bookRequest);
+            var avaliabilityResult = await _bookService.VerifyBookAvaliability(bookRequest.Id);
             Assert.Null(avaliabilityResult);
         }
 
@@ -50,7 +50,7 @@ namespace PosBooksConsumerTests.Integracao
 
             var bookSaved = await _context.Books.Where(x => x.Title == bookRequest.Title).FirstAsync();
 
-            await _bookService.Rent(bookSaved, clientRequest);
+            await _bookService.Rent(bookRequest.Id, clientRequest);
 
             var bookExpected = await _context.Books.Where(x => x.Title == bookRequest.Title).FirstAsync();
             Assert.Equal(clientRequest,  bookExpected.Renter);

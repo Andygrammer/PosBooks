@@ -11,5 +11,7 @@
         public string Publisher { get; set; }
 
         public int Year { get; set; }
+
+        public Client? Renter { get; set; }
     }
 }

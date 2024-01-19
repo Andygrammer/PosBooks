@@ -1,9 +1,9 @@
 ﻿using Bogus;
-using PosBooksConsumer.Models;
+using PosBooksCore.Models;
 
 namespace PosBooksConsumerTests.Shareable
 {
-    public class BookDtoBuilder : Faker<BookDTO>
+    public class BookDtoBuilder : Faker<Book>
     {
         public BookDtoBuilder()
         {

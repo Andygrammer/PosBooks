@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PosBooksTest", "PosBooksTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PosBooksConsumer", "PosBooksConsumer\PosBooksConsumer\PosBooksConsumer.csproj", "{52211660-E321-410E-A019-81912B9D41ED}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PosBooksConsumerTests", "PosBooksConsumer\PosBooksConsumerTests\PosBooksConsumerTests.csproj", "{0A13454F-BCE3-4E9C-BCD9-AF8362927710}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{52211660-E321-410E-A019-81912B9D41ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52211660-E321-410E-A019-81912B9D41ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52211660-E321-410E-A019-81912B9D41ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A13454F-BCE3-4E9C-BCD9-AF8362927710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A13454F-BCE3-4E9C-BCD9-AF8362927710}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A13454F-BCE3-4E9C-BCD9-AF8362927710}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A13454F-BCE3-4E9C-BCD9-AF8362927710}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using PosBooksConsumer.Models;
+using PosBooksCore.Models;
 
 namespace PosBooksConsumerTests.Shareable
 {
