@@ -21,12 +21,12 @@ namespace PosBooksConsumer.Events
             if (avaliableBook == null)
             {
                 await _bookService.SubscribeToWaitList(context.Message.IdBook, context.Message.Requester);
-                await _emailService.SendEmail(context.Message.Requester.Email, "");
+                await _emailService.SendEmail(context.Message.Requester.Email, "Livro Indisponível", $"Lamentamos, mas o livro escolhido não está disponível no momento.");
             }
             else
             {
                 await _bookService.Rent(context.Message.IdBook, context.Message.Requester);
-                await _emailService.SendEmail(context.Message.Requester.Email, "");
+                await _emailService.SendEmail(context.Message.Requester.Email, "Livro Alugado", $"O livro {avaliableBook.Title}, do(a) autor(a) {avaliableBook.Author}, foi alugado!");
             }
         }
     }
