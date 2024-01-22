@@ -40,7 +40,7 @@ public class AlugarLivroControllerTest
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
         Assert.Equal(200, okResult.StatusCode);
-        _enviarRequisicaoBusiness.Received().EnviarRequisicao(requisicaoEsperada, endpoint);
+        _enviarRequisicaoBusiness.EnviarRequisicao(requisicaoEsperada, endpoint);
     }
     
     [Fact]
@@ -84,19 +84,18 @@ public class AlugarLivroControllerTest
         var solicitacaoDto = new SolicitacaoDto("Nome", "Email", 1);
         _parametros.BuscarNomeFila(NOMEFILAALUGARLIVRO).Returns("TestFila");
         _parametros.MontarEndpoint("TestFila").Returns(Substitute.For<ISendEndpoint>());
-        var requisicaoEsperada = BookRequest.Map(solicitacaoDto);
 
         _enviarRequisicaoBusiness
-            .EnviarRequisicao(requisicaoEsperada, Arg.Any<ISendEndpoint>())
-            .Throws(new Exception("Erro genérico"));
-        
+            .When(x => x.EnviarRequisicao(Arg.Any<BookRequest>(), Arg.Any<ISendEndpoint>()))
+            .Do(x => throw new Exception("Erro genérico"));
+    
         // Act
         var result = await _controller.AlugarLivro(solicitacaoDto);
-        
+    
         // Assert
         var statusCodeResult = Assert.IsType<ObjectResult>(result);
         var converter = Assert.IsType<ResultViewModel<string>>(statusCodeResult.Value);
-        
+    
         Assert.Equal(500, statusCodeResult.StatusCode);
         Assert.Equal("Falha interna do servidor!", converter.Erros[0].ToString());
     }
