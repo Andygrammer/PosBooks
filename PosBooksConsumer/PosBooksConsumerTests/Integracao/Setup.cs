@@ -2,23 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 using PosBooksConsumer.Models;
 
-namespace PosBooksConsumerTests.Integracao
+namespace PosBooksConsumerTests.Integracao 
 {
     public class Setup : IDisposable
     {
-        private readonly IServiceProvider _services;
         public readonly PBCContext _context;
-        private SqliteConnection _connection;
 
         public Setup()
         {
             _context = new PBCContext(GetContextOptions());
-            _context.Database.EnsureCreated();
+            _context.Database.Migrate();
         }
 
         private DbContextOptions<PBCContext> GetContextOptions()
         {
-            var connection = "Server=(localdb)\\MSSQLLocalDB;Database=PosBooksConsumerTests;Integrated Security=true;";
+            var connection = "Server=localhost,1433;Database=PosBooksConsumer;User Id=sa;Password=posServer2024!;TrustServerCertificate=True;";
 
             return new DbContextOptionsBuilder<PBCContext>()
                 .UseSqlServer(connection)
