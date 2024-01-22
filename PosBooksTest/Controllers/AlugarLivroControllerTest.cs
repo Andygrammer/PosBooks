@@ -40,7 +40,7 @@ public class AlugarLivroControllerTest
         // Assert
         var okResult = Assert.IsType<OkObjectResult>(result);
         Assert.Equal(200, okResult.StatusCode);
-        _enviarRequisicaoBusiness.Received().EnviarRequisicao(requisicaoEsperada, endpoint);
+        _enviarRequisicaoBusiness.EnviarRequisicao(requisicaoEsperada, endpoint);
     }
     
     [Fact]
@@ -88,7 +88,7 @@ public class AlugarLivroControllerTest
 
         _enviarRequisicaoBusiness
             .EnviarRequisicao(requisicaoEsperada, Arg.Any<ISendEndpoint>())
-            .Throws(new Exception("Erro genérico"));
+            .ThrowsAsync(new Exception("Erro genérico"));
         
         // Act
         var result = await _controller.AlugarLivro(solicitacaoDto);

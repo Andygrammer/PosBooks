@@ -31,6 +31,6 @@ public class EnviarRequisicaoBusinessTest
 
         // Assert
         // Check if the Send method of the endpoint was called with the correct request
-        await _sendEndpoint.Received(1).Send(_solicitacaoDto);
+        await _sendEndpoint.Received(1).Send(requisicaoEsperada);
     }
 }
