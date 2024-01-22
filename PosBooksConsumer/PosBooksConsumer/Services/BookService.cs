@@ -46,7 +46,7 @@ namespace PosBooksConsumer.Services
 
         public async Task GiveBackBook(int id)
         {
-            var selectedBook = await _context.Books.Where(b => b.Id == id).FirstOrDefaultAsync();
+            var selectedBook = await _context.Books.Where(b => b.Id == id).Include(x => x.Renter).FirstOrDefaultAsync();
             selectedBook.Renter = null;
             await _context.SaveChangesAsync();
         }
