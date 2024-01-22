@@ -28,7 +28,6 @@ namespace PosBooksConsumer.Services
                 .Include(c => c.Renter)
                 .FirstOrDefaultAsync();
 
-            if (selectedBook?.Renter != null) return null;
             return selectedBook;
         }
 
