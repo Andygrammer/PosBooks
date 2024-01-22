@@ -20,12 +20,11 @@
 
 | Tecnologia                               | Propósito                                                      |  
 | -----------------------------------      | -------------------------------------------------------------- | 
-| Portal Azure e Azure CLI                 | Infraestrutura                                                 | 
 | .NET 7                                   | API, Class Library, Worker Service                             |
 | Microsoft SQL Server                     | Banco de Dados                                                 |
 | RabbitMQ                                 | Mensageria                                                     |
 | xUnit, Bogus e NSubstitute               | Testes unitários/integrados                                    |
-| Visual Studio 2022 e VS Code             | Desenvolvimento                                                |
+| Visual Studio e VS Code             | Desenvolvimento                                                |
 | GitHub                                   | Versionamento                                                  |
 | Miro                                     | Planejamento das demandas do trabalho e desenhos de diagramas  |
 | Trello                                   | Kanban das demandas                                            |
@@ -49,9 +48,9 @@ Primeiramente, definimos qual seria a aplicação: um sistema para empréstimo/a
 
 - \<GET> Obter um livro específico;
 
-- \<POST> Alugar um livro específico, com notificação por e-mail sobre disponibilidade;
+- \<POST> Alugar um livro específico, com notificação por e-mail sobre disponibilidade. Caso o livro não estiver disponível para aluguel, devemos armazenar o requisitante em uma lista de espera;
 
-- \<POST> Devolver um livro específico, com notificação por e-mail sobre disponibilidade.
+- \<POST> Devolver um livro específico, com atualização de sua disponibilidade.
 
 Para implementar a mensageria, criamos os seguintes projetos:
 
