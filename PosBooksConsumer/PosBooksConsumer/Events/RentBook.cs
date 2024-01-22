@@ -26,7 +26,7 @@ namespace PosBooksConsumer.Events
                 await _bookService.SubscribeToWaitList(bookRequest.IdBook, bookRequest.Requester);
                 await _emailService.SendEmail(bookRequest.Requester.Email, "Livro Indisponível", $"Lamentamos, mas o livro escolhido não está disponível no momento.");
             }
-            else if(avaliableBook.Renter == null && avaliableBook.Renter.Email != bookRequest.Requester.Email)
+            else if(avaliableBook.Renter == null)
             {
                 await _bookService.Rent(bookRequest.IdBook, bookRequest.Requester);
                 await _emailService.SendEmail(bookRequest.Requester.Email, "Livro Alugado", $"O livro {avaliableBook.Title}, do(a) autor(a) {avaliableBook.Author}, foi alugado!");
