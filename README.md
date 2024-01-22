@@ -21,7 +21,7 @@
 | Tecnologia                               | Propósito                                                      |  
 | -----------------------------------      | -------------------------------------------------------------- | 
 | Portal Azure e Azure CLI                 | Infraestrutura                                                 | 
-| .NET 7                                   | API                                                            | 
+| .NET 7                                   | API, Class Library, Worker Service                             |
 | Microsoft SQL Server                     | Banco de Dados                                                 |
 | RabbitMQ                                 | Mensageria                                                     |
 | xUnit, Bogus e NSubstitute               | Testes unitários/integrados                                    |
