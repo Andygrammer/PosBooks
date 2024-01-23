@@ -10,6 +10,7 @@ namespace PosBooksConsumer.Services
         public Task Rent(int idBook, Client renter);
         public Task SubscribeToWaitList(int idBook, Client renter);
         public Task GiveBackBook(int id);
+        public Task<Client?> NextInTheQeue(int idBook);
     }
     
     public class BookService : IBookService
@@ -21,15 +22,11 @@ namespace PosBooksConsumer.Services
             _context = context;
         }
 
-        public async Task<Book?> VerifyBookAvaliability(int idBook)
-        {
-            var selectedBook = await _context.Books
+        public async Task<Book?> VerifyBookAvaliability(int idBook) => 
+            await _context.Books
                 .Where(b =>b.Id == idBook)
                 .Include(c => c.Renter)
                 .FirstOrDefaultAsync();
-
-            return selectedBook;
-        }
 
         public async Task<bool> VerifyIfClientExists(string email) =>
             await _context.Clients
@@ -60,5 +57,11 @@ namespace PosBooksConsumer.Services
             await _context.WaitList.AddAsync(waitListNewRequest);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Client?> NextInTheQeue(int idBook) =>
+            await _context.WaitList
+                .OrderBy(x => x.RequestDate)
+                .Select(x => x.Requester)
+                .FirstOrDefaultAsync();
     }
 }

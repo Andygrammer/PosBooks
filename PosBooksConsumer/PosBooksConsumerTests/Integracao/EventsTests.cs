@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Castle.Core.Resource;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using PosBooksConsumer.Events;
 using PosBooksConsumer.Models;
@@ -16,16 +17,22 @@ namespace PosBooksConsumerTests.Integracao
         private readonly IEmailService _emailService;
         private readonly RentBook _rentBookWithStub;
         private readonly RentBook _rentBook;
+        private readonly GiveBackBook _giveBackBookStub;
+        private readonly GiveBackBook _giveBackBook;
         private readonly PBCContext _context;
 
         public EventsTests(Setup setup)
         {
+            _context = setup._context;
             _bookService = new BookService(setup._context);
             _emailService = Substitute.For<IEmailService>();
             _bookServiceStub = Substitute.For<IBookService>();
+
             _rentBookWithStub = new RentBook(_bookServiceStub, _emailService);
             _rentBook = new RentBook(_bookService, _emailService);
-            _context = setup._context;
+
+            _giveBackBookStub = new GiveBackBook(_bookServiceStub, _emailService);
+            _giveBackBook = new GiveBackBook(_bookService, _emailService); 
         }
 
         [Fact]
@@ -123,6 +130,55 @@ namespace PosBooksConsumerTests.Integracao
             await _rentBookWithStub.Rent(new BookRequest() { IdBook = bookId, Requester = newRenter });
 
             await _emailService.Received(1).SendEmail(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public async Task GiveBack_ShouldRemoveCurrentClientName_WhenRenterAndGiveBackClientWereTheSame()
+        {
+            var bookId = 1;
+            var currentRenter = new ClientBuilder().Generate();
+
+            await _bookService.Rent(bookId, currentRenter);
+
+            await _giveBackBook.GiveBack(bookId, currentRenter);
+
+            var bookContent = await _context.Books
+                .FirstOrDefaultAsync(x => x.Id == bookId);
+
+            Assert.Null(bookContent.Renter);
+        }
+
+        [Fact]
+        public async Task GiveBack_ShouldNotRemoveCurrentClientName_WhenRenterAndGiveBackClientWereDiferernt()
+        {
+            var bookId = 1;
+            var currentRenter = new ClientBuilder().Generate();
+            var newRenter = new ClientBuilder().Generate();
+
+            await _bookService.Rent(bookId, currentRenter);
+
+            await _giveBackBook.GiveBack(bookId, newRenter);
+
+            var bookContent = await _context.Books
+                .FirstOrDefaultAsync(x => x.Id == bookId);
+
+            Assert.Equal(bookContent.Renter, currentRenter);
+        }
+
+        [Fact]
+        public async Task GiveBack_ShouldSendEmailToTheNextInTheWaitList_WhenBookWereFree()
+        {
+            var bookId = 1;
+            var currentRenter = new ClientBuilder().Generate();
+            var newRenter = new ClientBuilder().Generate();
+            var book = new BookBuilder().WithId(bookId).WithRenter(currentRenter);
+
+            _bookServiceStub.VerifyBookAvaliability(Arg.Any<int>()).Returns(book);
+            _bookServiceStub.NextInTheQeue(Arg.Any<int>()).Returns(newRenter);
+
+            await _giveBackBookStub.GiveBack(bookId,  currentRenter);
+
+            await _emailService.Received(2).SendEmail(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>());
         }
 
     }
