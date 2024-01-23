@@ -15,18 +15,21 @@ namespace PosBooksConsumer.Events
             _emailService = emailService;
         }
 
-        public async Task Consume(ConsumeContext<BookRequest> context)
+        public async Task Consume(ConsumeContext<BookRequest> context) =>
+            Rent(new BookRequest() { Requester = context.Message.Requester, IdBook = context.Message.IdBook });
+
+        public async Task Rent(BookRequest bookRequest)
         {
-            var avaliableBook = await _bookService.VerifyBookAvaliability(context.Message.IdBook);
-            if (avaliableBook == null)
+            var avaliableBook = await _bookService.VerifyBookAvaliability(bookRequest.IdBook);
+            if (avaliableBook.Renter != null && avaliableBook.Renter.Email != bookRequest.Requester.Email)
             {
-                await _bookService.SubscribeToWaitList(context.Message.IdBook, context.Message.Requester);
-                await _emailService.SendEmail(context.Message.Requester.Email, "Livro Indisponível", $"Lamentamos, mas o livro escolhido não está disponível no momento.");
+                await _bookService.SubscribeToWaitList(bookRequest.IdBook, bookRequest.Requester);
+                await _emailService.SendEmail(bookRequest.Requester.Email, "Livro Indisponível", $"Lamentamos, mas o livro escolhido não está disponível no momento.");
             }
-            else
+            else if(avaliableBook.Renter == null)
             {
-                await _bookService.Rent(context.Message.IdBook, context.Message.Requester);
-                await _emailService.SendEmail(context.Message.Requester.Email, "Livro Alugado", $"O livro {avaliableBook.Title}, do(a) autor(a) {avaliableBook.Author}, foi alugado!");
+                await _bookService.Rent(bookRequest.IdBook, bookRequest.Requester);
+                await _emailService.SendEmail(bookRequest.Requester.Email, "Livro Alugado", $"O livro {avaliableBook.Title}, do(a) autor(a) {avaliableBook.Author}, foi alugado!");
             }
         }
     }

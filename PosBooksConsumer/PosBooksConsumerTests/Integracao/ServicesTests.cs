@@ -5,6 +5,7 @@ using PosBooksConsumerTests.Shareable;
 
 namespace PosBooksConsumerTests.Integracao
 {
+    [Collection("ConsumerTests")]
     public class ServicesTests : IClassFixture<Setup>
     {
         private readonly BookService _bookService;
