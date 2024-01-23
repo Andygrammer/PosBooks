@@ -36,14 +36,27 @@ namespace PosBooksConsumer.Services
         public async Task Rent(int idBook, Client renter)
         {
             var wantedBook = await _context.Books.Where(b => b.Id == idBook).FirstAsync();
+
+            var isInWaitlist = await _context.WaitList.Where(w => w.Requester.Email == renter.Email).FirstOrDefaultAsync();
+
+            if (isInWaitlist != null)
+            {
+                _context.Clients.Update(renter);
+                isInWaitlist.Requester = renter;
+                _context.WaitList.Remove(isInWaitlist);
+            }
+
             wantedBook.Renter = renter;
             await _context.SaveChangesAsync();
         }
 
         public async Task GiveBackBook(int id)
         {
-            var selectedBook = await _context.Books.Where(b => b.Id == id).Include(x => x.Renter).FirstOrDefaultAsync(); 
+            var selectedBook = await _context.Books.Where(b => b.Id == id).Include(x => x.Renter).FirstOrDefaultAsync();
+
+            _context.Clients.Remove(selectedBook.Renter);
             selectedBook.Renter = null;
+
             await _context.SaveChangesAsync();
         }
 

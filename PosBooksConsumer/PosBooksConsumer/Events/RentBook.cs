@@ -16,7 +16,7 @@ namespace PosBooksConsumer.Events
         }
 
         public async Task Consume(ConsumeContext<BookRequest> context) =>
-            Rent(new BookRequest() { Requester = context.Message.Requester, IdBook = context.Message.IdBook });
+            await Rent(new BookRequest() { Requester = context.Message.Requester, IdBook = context.Message.IdBook });
 
         public async Task Rent(BookRequest bookRequest)
         {
