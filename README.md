@@ -152,9 +152,11 @@ Na raiz deste repositório temos o **docker-compose.yml**. Ele foi desenvolvido 
 
 Apresentamos aqui os pontos de destaque para a apresentação de nossa solução:
 
-1. Criaremos os containers com o comando: **docker compose up**.
+1. Executaremos todos os testes unitários e integrados.
 
-2. Executaremos os projetos do Producer (API) e do Consumer (WorkerService) ao mesmo tempo. 
+2. Criaremos os containers com o comando: **docker compose up**.
+
+3. Executaremos os projetos do Producer (API) e do Consumer (WorkerService) ao mesmo tempo.
 
 # 4. Conclusões
 
