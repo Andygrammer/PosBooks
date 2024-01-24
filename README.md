@@ -124,13 +124,13 @@ Explicamos a seguir o código desenvolvido para a solução **PosBooks.sln**.
 
 - A classe Program contém as configurações da API, de BD e do MassTransit para fornecer os endpoints aos consumers.
 
-- O appsettings possui as configurações de BD (connection string), mensageria (nomes das filas, servidor, usuário e senha) e e-mail (servidor SMTP, porta SMTP, usuário e senha de aplicação).
-
 **Projeto PosBooksConsumer:**
 
 - Contém o Worker, Services, classes de eventos (emprestar e devolver livros), classe de contexto e migrations do BD.
 
 - A classe Program contém as configurações de serviços, de BD e do MassTransit para consumo.
+
+- O appsettings possui as configurações de BD (connection string), mensageria (nomes das filas, servidor, usuário e senha) e e-mail (servidor SMTP, porta SMTP, usuário e senha de aplicação).
 
 **Projeto PosBooksCore:**
 
