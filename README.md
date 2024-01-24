@@ -152,7 +152,7 @@ Na raiz deste repositório temos o **docker-compose.yml**. Ele foi desenvolvido 
 
 Apresentamos aqui os pontos de destaque para a apresentação de nossa solução:
 
-3. Criaremos os containers com o comando: **docker compose up**.
+1. Criaremos os containers com o comando: **docker compose up**.
 
 2. Executaremos todos os testes unitários e integrados.
 
