@@ -120,10 +120,10 @@ Explicamos a seguir o código desenvolvido para a solução **PosBooks.sln**.
 
 - A API é documentada com o Swagger.
 
-- O appsettings possui as configurações de BD (connection string) e mensageria (nomes das filas, servidor, usuário e senha).
-
 - A classe Program contém as configurações da API, de BD e do MassTransit para fornecer os endpoints aos consumers.
 
+- O appsettings possui as configurações de BD (connection string) e mensageria (nomes das filas, servidor, usuário e senha).
+  
 **Projeto PosBooksConsumer:**
 
 - Contém o Worker, Services, classes de eventos (emprestar e devolver livros), classe de contexto e migrations do BD.
