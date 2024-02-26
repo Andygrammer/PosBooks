@@ -1,0 +1,28 @@
+﻿# Imagem base para a execução
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+
+# Imagem de SDK para construir o código
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+ARG BUILD_CONFIGURATION=Release
+
+# Copiar csproj e restaurar dependências
+WORKDIR /src/PosBooksConsumer
+COPY ["PosBooksConsumer/PosBooksConsumer.sln", "./"]
+COPY ["PosBooksConsumer/PosBooksConsumer/PosBooksConsumer.csproj", "PosBooksConsumer/"]
+COPY ["PosBooksConsumer/PosBooksConsumerTests/PosBooksConsumerTests.csproj", "PosBooksConsumerTests/"]
+RUN dotnet restore "PosBooksConsumer/PosBooksConsumer.csproj"
+COPY . .
+WORKDIR "/src/PosBooksConsumer/PosBooksConsumer"
+RUN dotnet build "PosBooksConsumer.sln" -c $BUILD_CONFIGURATION -o /app/build
+
+# Publicar o projeto
+FROM build AS publishPosBooksConsumer
+WORKDIR "/src/PosBooksConsumer/PosBooksConsumer"
+RUN dotnet publish "PosBooksConsumer.sln" -c $BUILD_CONFIGURATION -o /app/publish
+
+# Imagem final
+FROM base AS final
+WORKDIR /app
+COPY --from=publishPosBooksConsumer /app/publish .
+ENTRYPOINT ["dotnet", "PosBooksConsumer.dll"]
