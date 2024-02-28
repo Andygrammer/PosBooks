@@ -1,0 +1,33 @@
+﻿# Imagem base para a execução
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+
+# Imagem de SDK para construir o código
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+
+# Argumento usado para configuração de build (Debug/Release)
+ARG BUILD_CONFIGURATION=Release
+
+# Restaurar e construir a primeira solução (PosBooks)
+WORKDIR /src
+COPY ["PosBooks.sln", "./"]
+COPY ["PosBooks/PosBooks.csproj", "PosBooks/"]
+COPY ["PosBooksTest/PosBooksTest.csproj", "PosBooksTest/"]
+COPY ["PosBooksCore/PosBooksCore.csproj", "PosBooksCore/"]
+RUN dotnet restore "PosBooks/PosBooks.csproj"
+COPY . .
+WORKDIR "/src/PosBooks"
+RUN dotnet build "PosBooks.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# Publicar a PosBooks
+FROM build AS publishPosBooks
+WORKDIR "/src/PosBooks"
+RUN dotnet publish "PosBooks.csproj" -c $BUILD_CONFIGURATION -o /app/publish
+
+# Imagem final
+FROM base AS final
+WORKDIR /app
+# Saídas da publicação
+COPY --from=publishPosBooks /app/publish .
+# Definir o ponto de entrada
+ENTRYPOINT ["dotnet", "PosBooks.dll"]

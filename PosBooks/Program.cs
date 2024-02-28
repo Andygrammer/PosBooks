@@ -42,6 +42,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+var scoped = app.Services.CreateScope();
+var dbContext = scoped.ServiceProvider.GetRequiredService<PosBookContext>();
+dbContext.Database.Migrate();
+
 app.Run();
 
 void ConfigureMassTransit(WebApplicationBuilder webApplicationBuilder)

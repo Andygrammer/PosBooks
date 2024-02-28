@@ -13,3 +13,32 @@ services:
       MSSQL_PID: "Developer"
     ports:
       - "1433:1433"
+  
+  posbooks-producer:
+    image: posbooksproducer
+    environment:
+      - "ConnectionStrings__SQLConnection=Server=sqlserver;Database=PosBooksProducer;User Id=sa;Password=posServer2024!;TrustServerCertificate=True;"
+      - "AllowedHosts=*"
+      - "MassTransit__NomeFilaAlugarLivro=PosBooksProdutorAlugarLivro"
+      - "MassTransit__NomeFilaDevolverLivro=PosBooksProdutorDevolverLivro"
+      - "MassTransit__Servidor=masstransit-posbooks"
+      - "MassTransit__Usuario=guest"
+      - "MassTransit__Senha=guest"
+    ports:
+      - "5000:8080"
+
+  posbooks-consumer:
+    image: posbooksconsumer
+    environment:
+      - "Logging__LogLevel__Default=Information"
+      - "Logging__LogLevel__Microsoft.Hosting.Lifetime=Information"
+      - "ConnectionStrings__SQLConnection=Server=sqlserver;Database=PosBooksConsumer;User Id=sa;Password=posServer2024!;TrustServerCertificate=True;"
+      - "MassTransit__NomeFilaAlugarLivro=PosBooksProdutorAlugarLivro"
+      - "MassTransit__PosBooksProdutorDevolverLivro=PosBooksProdutorDevolverLivro"
+      - "MassTransit__Servidor=masstransit-posbooks"
+      - "MassTransit__Usuario=guest"
+      - "MassTransit__Senha=guest"
+      - "Email__ServidorSMTP=smtp.gmail.com"
+      - "Email__PortaSMTP=587"
+      - "Email__Usuario=andbat2122@gmail.com"
+      - "Email__Senha=rrowzxysyrexheih"
