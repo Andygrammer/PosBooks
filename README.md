@@ -234,6 +234,8 @@ O projeto será executado localmente, assim como o TC 4, com a diferença que em
 
 - **DockerfileConsumer**: contém as definições do projeto do Consumer (WorkerService e testes) conteineirizado.
 
+- **Pasta Ymls:** contém o arquivo podposbooks.yml, com as definições necessárias para fazer a orquestração Kubernetes com o Docker Desktop.
+
 # 3. Observações
 
 Apresentamos aqui os pontos de destaque para a apresentação de nossa solução:
@@ -247,6 +249,14 @@ Apresentamos aqui os pontos de destaque para a apresentação de nossa solução
 **docker compose up**
 
 2. Com isso, executaremos os projetos do Producer (API) e do Consumer (WorkerService) ao mesmo tempo.
+
+3. Podemos rodar o Kubernetes com os comandos:
+
+**kubectl apply -f podposbooks.yml**
+
+**kubectl get pods**
+
+**kubectl port-forward pod/posbooks 5000:80 5673:5672 15673:15672 1435:1433**
 
 # 4. Conclusões
 
