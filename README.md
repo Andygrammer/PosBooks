@@ -1,6 +1,9 @@
 # PosBooks - FIAP Pós Tech
 
-#### Especialização em Arquitetura de Sistemas .NET com Azure: Fase IV - Tech Challenge
+<details>
+ <summary>Documentação do Tech Challenge 4</summary>
+
+ #### Especialização em Arquitetura de Sistemas .NET com Azure: Fase IV - Tech Challenge
 
 # 0. Metadados
 
@@ -173,3 +176,88 @@ sem comprometer o funcionamento total do sistema, pois a dependência entre os c
 
 4. [Documentação do RabbitMQ](https://www.rabbitmq.com/documentation.html)
 
+</details>
+
+
+<details>
+ <summary>Documentação do Tech Challenge 5</summary>
+
+  #### Especialização em Arquitetura de Sistemas .NET com Azure: Fase V - Tech Challenge
+
+ # 0. Metadados
+
+**Nome do Projeto:** PosBooks
+
+**Desenvolvedores do Projeto:**
+
+| Aluno                               | RM            |  
+| --------------------------------    | ------------- | 
+| André Marinho Valadão Batemarchi    | 348471        | 
+| André Vinícius de Angelo Falcão     | 349140        | 
+| Kaique Leonardo Gomes da Silva      | 349128        |
+| Nathalia Lasagna Dias de souza      | 350089        |
+| Rodrigo Castagnaro                  | 349122        |
+
+**Tecnologias Utilizadas:**
+
+As mesmas do Tech Challenge 4.
+
+# 1. Desafio
+
+O Tech Challenge (TC) #5 consiste em publicar um projeto que usa microsserviço em um cluster Kubernetes.
+
+**Requisitos:**
+
+- Usar o projeto desenvolvido nos TCs antetiores ou criar um novo.
+
+- Criar um Dockerfile e realizar a publicação no Azure Kubernetes Service (AKS) ou via Kubernetes localmente.
+
+- Registrar a execução do projeto dentro de um cluster Kubernetes em um vídeo e submeter no portal do aluno FIAP.
+
+# 2. Nossa Solução
+
+Primeiramente, definimos que utilizaríamos o projeto desenvolvido no TC4.
+
+Em segundo lugar, definimos que a execução seria feita localmente, via Docker Desktop.
+
+As subseções a seguir explicam os detalhes da solução.
+
+## 2.1. Arquitetura Proposta
+
+No TC5, usamos uma arquitetura semelhante à apresentada no TC4. A única diferença é que agora os containers possuem a orquestração por meio de clusters Kubernetes.
+
+## 2.2. Código Desenvolvido
+
+O projeto será executado localmente, assim como o TC 4, com a diferença que em vez de usar docker-compose, usamos os seguintes **dockerfiles** (executados via Docker, com a configuração de Kubernetes ativada):
+
+- **DockerfileProducer:** contém as definições do projeto do Produtor (API e testes) conteineirizado.
+
+- **DockerfileConsumer**: contém as definições do projeto do Consumer (WorkerService e testes) conteineirizado.
+
+# 3. Observações
+
+Apresentamos aqui os pontos de destaque para a apresentação de nossa solução:
+
+1. Criaremos os containers com os comandos:
+
+**docker build -t posbooksproducer -f DockerfileProducer .**
+
+**docker build -t posbooksconsumer -f DockerfileConsumer .**
+
+**docker compose up**
+
+2. Com isso, executaremos os projetos do Producer (API) e do Consumer (WorkerService) ao mesmo tempo.
+
+# 4. Conclusões
+
+É possível executar um projeto completo, com mensageria e microsserviços, de maneira conteinerizada e com orquestração por Kubernetes. Observamos que o uso de sistemas distribuídos, aliado à tecnologia de orquestração de containers permite: escalabilidade, portabilidade, alta disponibilidade, isolamento de recursos e desenvolvimento ágil. Tudo isso é possível, porque o Kubernetes gerencia nossa aplicação por meio de um conjunto de nós de forma automatizada e consistente.
+
+# 5. Referências
+
+1. [Documentação do Docker - DockerFile](https://docs.docker.com/reference/dockerfile/#dockerfile-reference)
+
+2. [Documentação do Docker - Orquestração com Kubernetes](https://docs.docker.com/get-started/orchestration/)
+
+3. [Documentação do Kubernetes](https://kubernetes.io/pt-br/docs/home/)
+
+ </details>
