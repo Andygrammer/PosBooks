@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: posbooks
+  labels:
+    app: posbooks
+spec:
+  containers:
+    - name: masstransit-posbooks
+      image: masstransit/rabbitmq
+      ports:
+        - containerPort: 5672
+        - containerPort: 15672
+    - name: sqlserver
+      image: mcr.microsoft.com/mssql/server:2019-latest
+      env:
+        - name: SA_PASSWORD
+          value: "posServer2024!"
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: MSSQL_PID
+          value: "Developer"
+      ports:
+        - containerPort: 1433
+    - name: posbooksproducer
+      image: rodrigoskte/posbooksproducer:latest
+      ports:
+        - containerPort: 80
+      env:
+        - name: ConnectionStrings__SQLConnection
+          value: "Server=localhost;Database=PosBooksProducer;User Id=sa;Password=posServer2024!;TrustServerCertificate=True;"
+        - name: AllowedHosts
+          value: "*"
+        - name: MassTransit__NomeFilaAlugarLivro
+          value: "PosBooksProdutorAlugarLivro"
+        - name: MassTransit__NomeFilaDevolverLivro
+          value: "PosBooksProdutorDevolverLivro"
+        - name: MassTransit__Servidor
+          value: "localhost"
+        - name: MassTransit__Usuario
+          value: "guest"
+        - name: MassTransit__Senha
+          value: "guest"
+    - name: posbooksconsumer
+      image: rodrigoskte/posbooksconsumer:latest
+      env:
+        - name: Logging__LogLevel__Default
+          value: "Information"
+        - name: Logging__LogLevel__Microsoft.Hosting.Lifetime
+          value: "Information"
+        - name: ConnectionStrings__SQLConnection
+          value: "Server=localhost;Database=PosBooksConsumer;User Id=sa;Password=posServer2024!;TrustServerCertificate=True;"
+        - name: MassTransit__NomeFilaAlugarLivro
+          value: "PosBooksProdutorAlugarLivro"
+        - name: MassTransit__PosBooksProdutorDevolverLivro
+          value: "PosBooksProdutorDevolverLivro"
+        - name: MassTransit__Servidor
+          value: "localhost"
+        - name: MassTransit__Usuario
+          value: "guest"
+        - name: MassTransit__Senha
+          value: "guest"
+        - name: Email__ServidorSMTP
+          value: "smtp.gmail.com"
+        - name: Email__PortaSMTP
+          value: "587"
+        - name: Email__Usuario
+          value: "andbat2122@gmail.com"
+        - name: Email__Senha
+          value: "rrowzxysyrexheih"
