@@ -208,7 +208,7 @@ O Tech Challenge (TC) #5 consiste em publicar um projeto que usa microsserviço 
 
 **Requisitos:**
 
-- Usar o projeto desenvolvido nos TCs antetiores ou criar um novo.
+- Usar o projeto desenvolvido nos TCs anteriores ou criar um novo.
 
 - Criar um Dockerfile e realizar a publicação no Azure Kubernetes Service (AKS) ou via Kubernetes localmente.
 
